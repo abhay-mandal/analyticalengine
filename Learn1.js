@@ -103,3 +103,23 @@ function appendChild(currNode, label) {
     currNode.child.push(childNode);
     return childNode;
 }
+
+//Done generation of FP-Tree, Now need to find association rule [root]
+function clone(a) {
+   return JSON.parse(JSON.stringify(a));
+}
+
+var allPatern = {};
+function traverseTree(path,currNode){
+    path.push(currNode.label);
+    for(var i=0; i<currNode.child.length;i++){
+        if(!allPatern[currNode.child[i].label])
+            allPatern[currNode.child[i].label] = [];
+        allPatern[currNode.child[i].label].push({path:clone(path),count:currNode.child[i].count});
+        traverseTree(path,currNode.child[i]);
+    }
+    path.pop();
+}
+
+traverseTree([],root);
+console.log(JSON.stringify (allPatern));

@@ -34,43 +34,42 @@ for (var i = 0; i < data.length; i++) {
         }
     }
 }
-console.log(count);
 var object = count;
 var sortedCount = [];
-for (var property in object) { //TODO: Check the algorithm
+
+for (var property in object) { 
     if (object.hasOwnProperty(property)) {
-        var prop=null;
-        for (var property2 in object) {
-            if (object.hasOwnProperty(property2)) {
-                if(object[property]>=object[property2])
-                    prop = property;
-                else
-                    prop = property2;
+        var arr = Object.keys(object).map(function (key) { return object[key]; });
+        var max = Math.max(...arr);
+        for (var p in object) { 
+            if (object.hasOwnProperty(p)) {
+                if(object[p] == max){
+                    sortedCount.push(p);
+                    object[p] = 0;
+                    break;
+                }
             }
         }
-        object[prop] = 0;
     }
 }
-sortedCount = ["c","d","f","s","b","a"];
-console.log(sortedCount);
 
-for(var i=0; i<data.length; i++){
-    data[i].interest = sortData(sortedCount,data[i].interest);
+
+for (var i = 0; i < data.length; i++) {
+    data[i].interest = sortData(sortedCount, data[i].interest);
 }
 
-console.log(data);
-function sortData (sortedCount, data){
-    var solution=[];
-    for( var i = 0; i < sortedCount.length; i++){
-        if(isPresent(sortedCount[i], data)){
+function sortData(sortedCount, data) {
+    var solution = [];
+    for (var i = 0; i < sortedCount.length; i++) {
+        if (isPresent(sortedCount[i], data)) {
             solution.push(sortedCount[i]);
         }
     }
     return solution;
 }
- function isPresent(value,data ){
-    for(var i=0;i<data.length;i++){
-        if(value == data[i])
+function isPresent(value, data) {
+    for (var i = 0; i < data.length; i++) {
+        if (value == data[i])
             return true;
     }
     return false;
@@ -80,28 +79,26 @@ function sortData (sortedCount, data){
 
 
 
-var root = {label:'root',child:[]};
+var root = { label: 'root', child: [] };
 
-for(var i=0;i<data.length;i++){
+for (var i = 0; i < data.length; i++) {
     var currNode = root;
-    // console.log(data[i].interest[0]);
-    for(var j=0; j<data[i].interest.length;j++){
-        currNode = appendChild(currNode,data[i].interest[j]);
-        // console.log(currNode);
+    for (var j = 0; j < data[i].interest.length; j++) {
+        currNode = appendChild(currNode, data[i].interest[j]);
     }
 }
-console.log(root);
-function appendChild(currNode, label){
-    for(var i=0;i<currNode.child.length;i++){
-        if(currNode.child[i].label == label){
-            currNode.child[i].count ++;
+console.log(JSON.stringify(root));
+function appendChild(currNode, label) {
+    for (var i = 0; i < currNode.child.length; i++) {
+        if (currNode.child[i].label == label) {
+            currNode.child[i].count++;
             return currNode.child[i];
         }
     }
     var childNode = {
-        label : label,
-        count : 1,
-        child : []
+        label: label,
+        count: 1,
+        child: []
     };
     currNode.child.push(childNode);
     return childNode;
